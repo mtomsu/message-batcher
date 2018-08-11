@@ -34,7 +34,7 @@ batcher.Queue({'a': 1});
 
 ### Queue an array of messages for batching
 ```typescript
-batcher.Queue([{'a': 1, 'b': 2}]);
+batcher.Queue([{'a': 1}, {'b': 2}]);
 ```
 
 ### Example: Minimize SQS FIFO requests
@@ -65,6 +65,8 @@ for (let i: number = 1; i <= 25; i++)
 ```
 
 #### Example output
+Note that the first full batch is released immediately.  Subsequent full batches are released after `MinDelay` (prevents high-throughput applications from exceeding [SQS FIFO limits](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-limits.html)).  Partial batches are debounced until a full batch is received, or `MaxDelay` elapses.
+
 ```
 1533941987767 'Adding message 1'
 1533941987769 'Adding message 2'
@@ -113,6 +115,7 @@ Add a single message or an array of messages to the queue.
 
 ### Events
 MessageBatcher is an [EventEmitter](https://nodejs.org/api/events.html) and emits the following events:
+
 | Event | Params | Description |
 | ----- | ------ | ----------- |
 | `batch` | `[messages]` | Fired when at least one message has been added to the queue.  Not fired sooner than MinDelay, and not fired later than MaxDelay. |
