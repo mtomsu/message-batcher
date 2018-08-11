@@ -1,6 +1,6 @@
 {
 	"name": "message-batcher",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Queue messages and emit them in batches once the configured batch size is reached, or after a configurable period of time (whichever happens first).",
 	"main": "build/index.js",
 	"types": "build/index.d.ts",
